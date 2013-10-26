@@ -3,8 +3,8 @@ Contributors: scriptrunner
 Donate link: http://www.dougsparling.org/
 Tags: admin bar, admin menu, dashboard, disable, remove, hide
 Requires at least: 3.1
-Tested up to: 3.6
-Stable tag: 1.4.1
+Tested up to: 3.7
+Stable tag: 1.4.2
 License: MIT License
 License URI: http://www.opensource.org/licenses/mit-license.php
 
@@ -12,9 +12,9 @@ Block subscribers from accessing wp-admin pages. Disable the WP Admin Bar in Wor
 
 == Description ==
 
-This plugin will redirect users assigned to the <em>subscriber</em> role when they try to access any wp-admin page (is_admin() is true). This plugin will also hide the admin bar for those users in WordPress 3.1+.
+This plugin will gives the site admin the ability to "blacklist" roles (<em>subscriber</em>, <em>contributor</em>, <em>author</em>, and/or <em>editor</em>) and will redirect all users assiged to any blacklisted roles when they try to access any wp-admin page (is_admin() is true). This plugin will also hide the admin bar for those users in WordPress 3.1+.
 
-Users belonging to any of the other WordPress roles will continue to see and have access to the other sections of the WordPress admin that correspond to their role's capabilities.
+Admin users and any users belonging to any of the other WordPress roles that have not been blacklisted will continue to see and have access to the other sections of the WordPress admin that correspond to their role's capabilities.
 
 <strong>Note: Version 1.0.0+ requires a minimum of WordPress 3.1. If you are running a version less than that, please upgrade your WordPress install before installing or upgrading.</strong>
 
@@ -38,6 +38,12 @@ WP Admin No Show was originally written for a WordPress site that used 3rd party
 1. **WP Admin No Show Settings** - Set up per-site settings (blacklist user roles, redirect location)
 
 == Changelog ==
+
+= 1.4.2 =
+* Updated readme.
+* Update screenshot.
+* Added section labels to plugin options page.
+* Tested for WordPress 3.7 compatibility.
 
 = 1.4.1 =
 * Tested for WordPress 3.6 compatibility.

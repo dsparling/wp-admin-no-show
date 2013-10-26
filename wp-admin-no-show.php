@@ -3,7 +3,7 @@
 Plugin Name: WP Admin No Show
 Plugin URI: http://www.dougsparling.org
 Description: Efectively blocks admin portion of site for selected user roles. Any attempt to manually navigate to wp-admin section of site and user will be redirected to selected site page. Hides admin bar.
-Version: 1.4.1
+Version: 1.4.2
 Author: Doug Sparling
 Author URI: http://www.dougsparling.org
 License: MIT License - http://www.opensource.org/licenses/mit-license.php
@@ -162,9 +162,9 @@ function wp_admin_no_show_settings_page() {
         <?php do_settings_sections( 'wp-admin-no-show-settings-group' ); ?>
         <table class="form-table">
 
-            <tr valign="top">
-                <th scope="row"><?php _e( 'Roles Blacklist', 'wp-admin-no-show' ); ?></th>
+            <tr>
                 <td>
+                    <h3>User roles you want to blacklist</h3>
                     <?php
                     $blacklist_roles = get_option( 'wp_admin_no_show_blacklist_roles', array() );
                     if ( !is_array( $blacklist_roles ) )
@@ -200,15 +200,15 @@ function wp_admin_no_show_settings_page() {
                     update_option( 'wp_admin_no_show_redirect_type', 'front' );
             ?>
 
-            <tr valign="top">
-                <th scope="row"><?php _e( 'Redirect (wp-admin)' ); ?></th>
+            <tr>
                 <td id="front-static-pages">
+                    <h3>Where to redirect blacklisted users</h3>
                     <fieldset>
                         <legend class="screen-reader-text"><span><?php _e( 'WP Admin No Show Redirect' ); ?></span></legend>
                         <p>
                             <label>
                                 <input name="wp_admin_no_show_redirect_type" type="radio" value="none" class="tog" <?php checked( 'none', get_option( 'wp_admin_no_show_redirect_type' ) ); ?> />
-                                <?php _e( 'No redirect' ); ?>
+                                <?php _e( 'No redirect (Only hide WP Admin Bar, user will still see admin pages)' ); ?>
                             </label>
                         </p>
                         <p>
