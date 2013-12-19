@@ -3,7 +3,7 @@
 Plugin Name: WP Admin No Show
 Plugin URI: http://www.dougsparling.org
 Description: Efectively blocks admin portion of site for selected user roles. Any attempt to manually navigate to wp-admin section of site and user will be redirected to selected site page. Hides admin bar.
-Version: 1.4.2
+Version: 1.4.3
 Author: Doug Sparling
 Author URI: http://www.dougsparling.org
 License: MIT License - http://www.opensource.org/licenses/mit-license.php
@@ -67,7 +67,7 @@ function wp_admin_no_show_admin_redirect() {
             if (preg_match("/administrator/i", $role )) {
                 // whitelist administrator for redirect
                 continue;
-            } else if ( current_user_can( $role ) ) {
+            } else if ( wp_admin_no_show_check_user_role( $role ) ) {
                 $disable = true;
             }
         }
@@ -115,7 +115,7 @@ function wp_admin_no_show_admin_bar_disable() {
             $blacklist_roles = array( $blacklist_roles );
         }
         foreach ( $blacklist_roles as $role ) {
-            if ( current_user_can( $role ) ) {
+            if ( wp_admin_no_show_check_user_role( $role ) ) {
                 $disable = true;
             }
         }
@@ -128,6 +128,27 @@ function wp_admin_no_show_admin_bar_disable() {
     }
 }
 add_action( 'init', 'wp_admin_no_show_admin_bar_disable' );
+
+/**
+ * Checks if a particular user has a role.
+ * Returns true if a match was found.
+ * http://docs.appthemes.com/tutorials/wordpress-check-user-role-function/
+ *
+ * @param string $role Role name.
+ * @param int $user_id (Optional) The ID of a user. Defaults to the current user.
+ * @return bool
+ */
+function wp_admin_no_show_check_user_role( $role, $user_id = null ) {
+    if ( is_numeric( $user_id ) )
+        $user = get_userdata( $user_id );
+    else
+        $user = wp_get_current_user();
+
+    if ( empty( $user ) )
+        return false;
+
+    return in_array( $role, (array) $user->roles );
+}
 
 /**
  * Create admin menu

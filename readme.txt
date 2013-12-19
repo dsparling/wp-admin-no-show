@@ -3,8 +3,8 @@ Contributors: scriptrunner
 Donate link: http://www.dougsparling.org/
 Tags: admin bar, admin menu, dashboard, disable, remove, hide
 Requires at least: 3.1
-Tested up to: 3.7
-Stable tag: 1.4.2
+Tested up to: 3.8
+Stable tag: 1.4.3
 License: MIT License
 License URI: http://www.opensource.org/licenses/mit-license.php
 
@@ -38,6 +38,10 @@ WP Admin No Show was originally written for a WordPress site that used 3rd party
 1. **WP Admin No Show Settings** - Set up per-site settings (blacklist user roles, redirect location)
 
 == Changelog ==
+
+= 1.4.3 =
+* Removed improper use of current_user_can("role") function with WordPress Check User Role Function (AppThemes). Thanks to @massimopadovan for pointing it out.
+* Tested for WordPress 3.8 compatibility.
 
 = 1.4.2 =
 * Updated readme.
