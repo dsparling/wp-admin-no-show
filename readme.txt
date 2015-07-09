@@ -4,7 +4,7 @@ Donate link: http://www.dougsparling.org/
 Tags: admin bar, admin menu, dashboard, disable, remove, hide
 Requires at least: 3.1
 Tested up to: 4.2.2
-Stable tag: 1.5.0
+Stable tag: 1.5.1
 License: MIT License
 License URI: http://www.opensource.org/licenses/mit-license.php
 
@@ -38,6 +38,9 @@ WP Admin No Show was originally written for a WordPress site that used 3rd party
 1. **WP Admin No Show Settings** - Set up per-site settings (blacklist user roles, redirect location)
 
 == Changelog ==
+
+= 1.5.1 =
+* Switched back to admin_head for wp_admin_no_show_admin_redirect() to to conflit with Woo Commerce.
 
 = 1.5.0 =
 * Use admin_init hook for function wp_admin_no_show_admin_redirect()
