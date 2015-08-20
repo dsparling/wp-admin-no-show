@@ -3,7 +3,7 @@
 Plugin Name: WP Admin No Show
 Plugin URI: http://www.dougsparling.org
 Description: Efectively blocks admin portion of site for selected user roles. Any attempt to manually navigate to wp-admin section of site and user will be redirected to selected site page. Hides admin bar.
-Version: 1.6.0
+Version: 1.6.1
 Author: Doug Sparling
 Author URI: http://www.dougsparling.org
 License: MIT License - http://www.opensource.org/licenses/mit-license.php
@@ -81,7 +81,21 @@ function wp_admin_no_show_admin_redirect() {
             $redirect = get_bloginfo( 'url' );
         }
 
-        if( is_admin() && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+        ##
+        # Collection of URLs to allow through
+        ##
+        $exceptionURLs = get_option( 'wp_admin_no_show_exception_urls', '' );
+        if (!empty($exceptionURLs))
+            $exceptionURLs = preg_split('/\s+/', $exceptionURLs);
+
+        ##
+        # Get the last part of the requested url, just after last /
+        # which in this case will be last / of /wp-admin/
+        ##
+        $requestedURL = $_SERVER['REQUEST_URI'];
+        $requestedURL = substr($requestedURL, strrpos($requestedURL, '/') + 1);
+
+        if ( ( ! in_array($requestedURL, $exceptionURLs ) ) && ( is_admin() && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) ) {
             if ( headers_sent() ) {
                 echo '<meta http-equiv="refresh" content="0;url=' . $redirect . '">';
                 echo '<script type="text/javascript">document.location.href="' . $redirect . '"</script>';
@@ -160,6 +174,7 @@ add_action( 'admin_menu', 'wp_admin_no_show_create_menu' );
 
 function wp_admin_no_show_register_settings() {
     register_setting( 'wp-admin-no-show-settings-group', 'wp_admin_no_show_blacklist_roles' );
+    register_setting( 'wp-admin-no-show-settings-group', 'wp_admin_no_show_exception_urls' );
     register_setting( 'wp-admin-no-show-settings-group', 'wp_admin_no_show_redirect_type' );
     register_setting( 'wp-admin-no-show-settings-group', 'wp_admin_no_show_redirect_page' );
 }
@@ -201,6 +216,18 @@ function wp_admin_no_show_settings_page() {
                         }
                     ?>
 
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <h3>URL Exceptions</h3>
+                    <fieldset>
+                        <textarea name="wp_admin_no_show_exception_urls" rows="5" cols="50"><?php echo get_option( 'wp_admin_no_show_exception_urls' ); ?></textarea> <br/>
+                        <em><?php _e( '/wp-admin/ is added automatically, so just type the rest of the URI. ex.:', 'wp-admin-no-show' ); ?></em> <br/>
+                        <em><?php _e( '&nbsp;&nbsp;&nbsp; edit.php?post_type=originalpost', 'wp-admin-no-show' ); ?></em> <br/>
+                        <em><?php _e( '&nbsp;&nbsp;&nbsp; edit.php?post_type=custompost', 'wp-admin-no-show' ); ?></em> <br/>
+                    </fieldset>
                 </td>
             </tr>
 
