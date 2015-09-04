@@ -3,7 +3,7 @@
 Plugin Name: WP Admin No Show
 Plugin URI: http://www.dougsparling.org
 Description: Efectively blocks admin portion of site for selected user roles. Any attempt to manually navigate to wp-admin section of site and user will be redirected to selected site page. Hides admin bar.
-Version: 1.6.0
+Version: 1.6.1
 Author: Doug Sparling
 Author URI: http://www.dougsparling.org
 License: MIT License - http://www.opensource.org/licenses/mit-license.php
@@ -45,8 +45,8 @@ register_activation_hook( __FILE__, 'wp_admin_no_show_activate' );
  */
 function wp_admin_no_show_admin_redirect() {
     // Whitelist multisite super admin
-    if(function_exists('is_multisite')) {
-        if( is_multisite() && is_super_admin() ) {
+    if (function_exists('is_multisite')) {
+        if ( is_multisite() && is_super_admin() ) {
             return;
         }
     }
@@ -81,7 +81,9 @@ function wp_admin_no_show_admin_redirect() {
             $redirect = get_bloginfo( 'url' );
         }
 
-        if( is_admin() && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+        $redirect = apply_filters( 'wp_ans_redirect', $redirect );
+
+        if ( is_admin() && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
             if ( headers_sent() ) {
                 echo '<meta http-equiv="refresh" content="0;url=' . $redirect . '">';
                 echo '<script type="text/javascript">document.location.href="' . $redirect . '"</script>';
@@ -102,8 +104,8 @@ function wp_admin_no_show_admin_bar_disable() {
     $disable = false;
 
     // Whitelist multisite super admin
-    if(function_exists('is_multisite')) {
-        if( is_multisite() && is_super_admin() ) {
+    if (function_exists('is_multisite')) {
+        if ( is_multisite() && is_super_admin() ) {
             return;
         }
     }
